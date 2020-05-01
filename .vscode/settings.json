@@ -5,7 +5,9 @@
     },
     "terminal.integrated.shell.windows": "C:\\Windows\\sysnative\\cmd.exe",
     "files.associations": {
-        "stdio.h": "c"
+        "*.ino": "cpp",
+        "stdio.h": "c",
+        "cstdlib": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
