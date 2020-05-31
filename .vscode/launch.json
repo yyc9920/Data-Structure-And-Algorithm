@@ -8,7 +8,7 @@
             "name": "(gdb) 시작",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/Week 7/YechanYun15.exe",
+            "program": "${workspaceFolder}/midterm_exam_code/YechanYun.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
