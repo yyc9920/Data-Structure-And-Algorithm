@@ -39,8 +39,8 @@ typedef struct ListNode
 
 typedef struct
 {
-    char reserveNum[MAX_MEAN_LENGTH];
     char name[MAX_WORD_LENGTH];
+    char reserveNum[MAX_MEAN_LENGTH];
     char reserveDate[MAX_WORD_LENGTH];
 	movies *movie;
 	char payInfo;
@@ -121,7 +121,7 @@ treeNode *insertKey(treeNode *p, element key)
     // 이진 트리에서 삽입할 자리 탐색
     else
     {
-        compare = strcmp(key.reserveNum, p->key.reserveNum);
+        compare = strcmp(key.name, p->key.name);
         if (compare < 0)
             p->left = insertKey(p->left, key);
         else if (compare > 0)
@@ -206,6 +206,7 @@ void deleteNode(treeNode *root, element key)
         p->key = succ->key;
         p = succ;
     }
+    printf("\n취소한 예매 번호는 %s 입니다\n", p->key.reserveNum);
     free(p);
     printf("\n예매가 취소되었습니다.\n");
 }
@@ -472,7 +473,6 @@ void changeReserve(treeNode *tmp){
         tmp->key.movie = movie[mn-1];
         strcpy(tmp->key.reserveNum, initReserveNum(tmp->key));
         printf("\n해당 영화로 예매 정보가 변경되었습니다.\n");
-        printf("\n***예매 확인 및 변경 시에 예매 번호가 필요하오니 메모를 권장합니다.***\n");
         printf("\n예매 번호 : %s\n", tmp->key.reserveNum);
         printf("계속 하려면 엔터 키를 누르세요.");
         getchar();
@@ -496,7 +496,6 @@ void changeReserve(treeNode *tmp){
             
             strcpy(tmp->key.reserveNum, initReserveNum(tmp->key));
             printf("\n결제 정보가 변경되었습니다.\n");
-            printf("\n***예매 확인 및 변경 시에 예매 번호가 필요하오니 메모를 권장합니다.***\n");
             printf("\n예매 번호 : %s\n", tmp->key.reserveNum);
             printf("계속 하려면 엔터 키를 누르세요.");
             getchar();
@@ -511,7 +510,6 @@ void changeReserve(treeNode *tmp){
         tmpReserveDate[0] = '\0';
         strcpy(tmp->key.reserveNum, initReserveNum(tmp->key));
         printf("\n예매 날짜가 변경되었습니다.\n");
-        printf("\n***예매 확인 및 변경 시에 예매 번호가 필요하오니 메모를 권장합니다.***\n");
         printf("\n예매 번호 : %s\n", tmp->key.reserveNum);
         printf("계속 하려면 엔터 키를 누르세요.");
         getchar();
@@ -578,6 +576,17 @@ void main()
                 scanf("%[^\n]", e.name);
                 while (getchar() != '\n');
             } while(e.name[0] == '\0' || e.name[1] =='\0' || e.name[2] == '\0');
+			
+			temp = searchBSTName(root, e);
+			
+			if(temp != NULL) {
+				if(strcmp(temp->key.name, e.name) == 0) {
+					printf("\n해당 이름으로 된 예매 내역이 이미 있습니다.\n");
+					printf("예매 번호 : %s\n", temp->key.reserveNum);
+					break;
+				}
+			}
+
             do{
                 while (getchar() !=  '\n');
                 printf("\n[결제 정보 입력] 결제 하시겠습니까?[Y/N]: ");
@@ -587,7 +596,6 @@ void main()
             e.movie->seat++;
             strcpy(e.reserveNum, initReserveNum(e));
             insert(&root, e);
-            printf("\n***예매 확인 및 변경 시에 예매 번호가 필요하오니 메모를 권장합니다.***\n");
             printf("\n예매 번호 : %s\n", e.reserveNum);
             printf("계속 하려면 엔터 키를 누르세요.");
             e.name[0] = '\0';
@@ -608,9 +616,9 @@ void main()
             e.reserveNum[0] = '\0';
             break;
         case 4:
-            printf("\n[예매번호 입력] 예매번호 : ");
-            scanf("%[^\n]", e.reserveNum);
-            temp = searchBST(root, e);
+            printf("\n[예매자 이름 입력] 이름 : ");
+            scanf("%[^\n]", e.name);
+            temp = searchBSTName(root, e);
             if (temp != NULL){
                 printf("\n[예매 정보]\n");
                 printf("예매 번호 : %s\n", temp->key.reserveNum);
@@ -655,9 +663,9 @@ void main()
             e.reserveNum[0] = '\0';
             break;
         case 5:
-            printf("\n[예매번호 입력] 예매번호 : ");
-            scanf("%[^\n]", e.reserveNum);
-            temp = searchBST(root, e);
+            printf("\n[예매자 이름 입력] 이름 : ");
+            scanf("%[^\n]", e.name);
+            temp = searchBSTName(root, e);
             changeReserve(temp);
             temp = NULL;
             e.name[0] = '\0';
